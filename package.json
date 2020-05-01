@@ -14,8 +14,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@emotion/core": "10.0.28",
-    "@emotion/styled": "10.0.27",
+    "@chakra-ui/core": "^0.7.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
     "@emotion/styled-base": "10.0.31",
     "@nfront/global-styles": "^1.2.1",
     "classnames": "2.2.6",
@@ -23,6 +24,7 @@
     "date-fns": "2.12.0",
     "emotion": "10.0.27",
     "emotion-server": "10.0.27",
+    "emotion-theming": "^10.0.27",
     "gatsby": "2.20.36",
     "gatsby-image": "2.3.5",
     "gatsby-plugin-canonical-urls": "2.2.4",

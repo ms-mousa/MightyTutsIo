@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 import SiteNav from '../components/header/SiteNav';
 import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
+import Wrapper from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
 import { inner, outer, PostFeed, SiteHeader, SiteNavMain } from '../styles/shared';

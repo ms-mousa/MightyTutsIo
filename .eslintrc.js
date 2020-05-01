@@ -15,7 +15,8 @@ module.exports = {
     'react/jsx-tag-spacing': 0,
     'react/prop-types': 0,
     'no-warning-comments': 0,
-    'complexity': 0,
+    complexity: 0,
+    'react/jsx-sort-props': 'off',
     '@typescript-eslint/strict-boolean-expressions': 0,
     '@typescript-eslint/no-unnecessary-condition': 0,
     '@typescript-eslint/no-unsafe-call': 0,
@@ -23,5 +24,6 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': 0,
     '@typescript-eslint/prefer-readonly-parameter-types': 0,
     '@typescript-eslint/no-unsafe-return': 0,
+    '@typescript-eslint/quotes': 'off',
   },
 };

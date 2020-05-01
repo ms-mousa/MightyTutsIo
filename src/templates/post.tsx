@@ -14,7 +14,7 @@ import SiteNav, { SiteNavMain } from '../components/header/SiteNav';
 import PostContent from '../components/PostContent';
 import { ReadNext } from '../components/ReadNext';
 import { Subscribe } from '../components/subscribe/Subscribe';
-import { Wrapper } from '../components/Wrapper';
+import Wrapper from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import { colors } from '../styles/colors';
 import { inner, outer, SiteMain } from '../styles/shared';

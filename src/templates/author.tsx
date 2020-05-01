@@ -7,7 +7,7 @@ import { FluidObject } from 'gatsby-image';
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
 import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
+import Wrapper from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import {
   AuthorProfileImage,
