@@ -26,7 +26,19 @@ import {
 import config from '../website-config';
 import { PageContext } from './post';
 import NavBar from '../components/header/NavBar';
-import { Box, Grid, PseudoBox, Flex, Badge, Text } from '@chakra-ui/core';
+import {
+  Box,
+  Grid,
+  PseudoBox,
+  Flex,
+  Badge,
+  Text,
+  DefaultTheme,
+  CustomTheme,
+} from '@chakra-ui/core';
+import FeaturedCard from '../components/header/FeaturedCard/';
+import styled from '@emotion/styled';
+import { customTheme } from '../styles/theme';
 
 export interface IndexProps {
   pageContext: {
@@ -92,7 +104,6 @@ const IndexPage: React.FC<IndexProps> = props => {
         <meta property="og:image:height" content={height.toString()} />
       </Helmet>
       <Wrapper>
-        {/* <SiteNav isHome /> */}
         <NavBar logo={props.data.logo} />
         {/* <SiteHeaderContent className="site-header-conent">
           <SiteTitle className="site-title">
@@ -108,52 +119,25 @@ const IndexPage: React.FC<IndexProps> = props => {
           </SiteTitle>
           <SiteDescription>{config.description}</SiteDescription>
         </SiteHeaderContent> */}
+        {/* Header Section */}
         <Box
-          p="2"
-          rounded="lg"
-          boxShadow="sm"
-          mt="60px"
-          mx="auto"
-          border="1px solid"
-          borderColor="bgDark1"
-          w="55vw"
-          h="25vh"
-          overflow="hidden"
-          bg="bgLight1"
+          as="header"
+          css={{
+            background: `linear-gradient(${customTheme.colors.bgLight2} 70%, ${customTheme.colors.bg} 30%)`,
+          }}
+          py="2"
         >
-          <Grid h="100%" columnGap="0" templateRows="1fr" templateColumns="1fr 1fr">
-            <PseudoBox
-              w="100%"
-              h="120%"
-              m={-3}
-              backgroundSize="cover"
-              backgroundImage="url(http://unsplash.it/800/800?random&gravity=left)"
-            />
-            <Flex direction="column" justify="space-between" p="2" h="100%">
-              <PseudoBox mb="2" as="div">
-                <Text fontFamily="Fira Code" fontWeight="400" fontSize="lg" color="headerText1">
-                  Learn React-dnd
-                </Text>
-                <Text fontFamily="Fira Code" fontSize="md" fontWeight="light" color="subText">
-                  Design Drag-n-Drop interactions
-                </Text>
-              </PseudoBox>
-              <Text fontSize="sm" fontWeight="light">
-                Do eu aliqua eiusmod officia eu id quis veniam reprehenderit adipisicing ut. Anim
-                minim cupidatat anim do fugiat enim enim est officia. Id occaecat nisi pariatur
-                culpa cupidatat. Dolor exercitation consectetur consectetur aliqua anim non. Fugiat
-                et elit nostrud tempor irure incididunt dolore non.
-              </Text>
-              <Flex align="baseline">
-                <Badge mx="2" variant="solid" variantColor="orange">
-                  React
-                </Badge>
-                <Badge variant="solid" variantColor="orange">
-                  Introduction
-                </Badge>
-              </Flex>
-            </Flex>
-          </Grid>
+          <PseudoBox textAlign="center" py="12" zIndex={2}>
+            <Text fontFamily="Merriweather Sans" color="headerText2" fontSize="3xl">
+              {config.title}
+            </Text>
+            <Text fontFamily="Open Sans" color="subText" fontSize="md">
+              {config.description}
+            </Text>
+          </PseudoBox>
+          <FeaturedCard
+            post={props.data.allMarkdownRemark.edges.find(edge => edge.node.frontmatter.featured)}
+          />
         </Box>
 
         <main id="site-main" css={[SiteMain, outer]}>
@@ -215,9 +199,11 @@ export const pageQuery = graphql`
           timeToRead
           frontmatter {
             title
+            subTitle
             date
             tags
             draft
+            featured
             excerpt
             image {
               childImageSharp {

@@ -60,9 +60,11 @@ exports.createPages = async ({ graphql, actions }) => {
             timeToRead
             frontmatter {
               title
+              subTitle
               tags
               date
               draft
+              featured
               excerpt
               image {
                 childImageSharp {

@@ -96,8 +96,10 @@ export interface PageContext {
     };
     excerpt: string;
     title: string;
+    subTitle: string;
     date: string;
     draft?: boolean;
+    featured?: boolean;
     tags: string[];
     author: Author[];
   };
