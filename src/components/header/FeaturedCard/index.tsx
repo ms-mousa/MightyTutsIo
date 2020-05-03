@@ -3,6 +3,7 @@ import { Badge, Text, Box, Grid, PseudoBox, Flex } from '@chakra-ui/core';
 import { PageContext } from '../../../templates/post';
 import { Link } from 'gatsby';
 import ReadMoreButton from './ReadMoreButton';
+import { customTheme } from '../../../styles/theme';
 
 export interface FeaturedCardProps {
   post: {
@@ -26,32 +27,52 @@ const FeaturedCard: React.SFC<FeaturedCardProps> = (props: FeaturedCardProps) =>
       mb="10"
       border="1px solid"
       borderColor="bgDark2"
-      w="40vw"
-      h="20vh"
+      maxW="800px"
+      h={['50vh', '50vh', '20vh', '20vh']}
       overflow="hidden"
       bg="bgLight1"
     >
-      <Grid h="100%" columnGap="0" templateRows="1fr" templateColumns="0.8fr 1fr">
+      <Flex h="100%" direction={['column', 'column', 'row', 'row']}>
         <PseudoBox
-          w="100%"
+          w="120%"
           h="120%"
-          m={-3}
+          mt={-3}
+          ml={-3}
           backgroundSize="cover"
+          flex={['1 0 50%', '1 0 50%', '1 0 40%', '1 0 40%']}
           backgroundImage={`url(${featuredPost.frontmatter.image.childImageSharp.fluid.src})`}
         />
-        <Flex direction="column" justify="space-between" p="2" h="100%">
+        <Flex display="flex" direction="column" px="2" pt="2" h="100%">
           <PseudoBox mb="2" as="div">
-            <Text fontFamily="Fira Code" fontWeight="400" fontSize="xl" color="headerText1">
+            <Text fontFamily="Merriweather Sans" fontWeight="400" fontSize="xl" color="headerText1">
               <Link to={featuredPost.fields.slug}>{featuredPost.frontmatter.title}</Link>
             </Text>
             <Text fontFamily="Fira Code" fontSize="md" fontWeight="light" color="subText">
               {featuredPost.frontmatter.subTitle}
             </Text>
           </PseudoBox>
-          <Text fontSize="sm" fontWeight="light">
-            {featuredPost.excerpt}
-          </Text>
-          <Flex align="baseline">
+          <PseudoBox position="relative">
+            <Text
+              fontSize="sm"
+              fontWeight="light"
+              maxH="12vh"
+              overflow="hidden"
+              css={{
+                '&:before': {
+                  content: `' '`,
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  left: '0',
+                  top: '0',
+                  background: `linear-gradient(transparent 70%,${customTheme.colors.bgLight1})`,
+                },
+              }}
+            >
+              {featuredPost.excerpt}
+            </Text>
+          </PseudoBox>
+          <Flex mt="auto">
             {featuredPost.frontmatter.tags.map(tag => (
               <Badge key={tag} mr="2" variant="solid" variantColor="orange">
                 {tag}
@@ -60,7 +81,7 @@ const FeaturedCard: React.SFC<FeaturedCardProps> = (props: FeaturedCardProps) =>
           </Flex>
           <ReadMoreButton link={featuredPost.fields.slug} />
         </Flex>
-      </Grid>
+      </Flex>
     </Box>
   );
 };

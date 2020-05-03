@@ -1,44 +1,20 @@
+import { Box, PseudoBox, Text, Grid } from '@chakra-ui/core';
+import { css } from '@emotion/core';
 import { graphql } from 'gatsby';
 import { FixedObject } from 'gatsby-image';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-
-import { css } from '@emotion/core';
-
 import { Footer } from '../components/Footer';
-import SiteNav from '../components/header/SiteNav';
+import FeaturedCard from '../components/header/FeaturedCard/';
+import NavBar from '../components/header/NavBar';
 import Pagination from '../components/Pagination';
 import { PostCard } from '../components/PostCard';
 import Wrapper from '../components/Wrapper';
-import IndexLayout from '../layouts';
-import {
-  inner,
-  outer,
-  PostFeed,
-  Posts,
-  SiteDescription,
-  SiteHeader,
-  SiteHeaderContent,
-  SiteMain,
-  SiteTitle,
-  SiteHeaderStyles,
-} from '../styles/shared';
+import { inner, outer, PostFeed, Posts, SiteMain } from '../styles/shared';
+import { customTheme } from '../styles/theme';
 import config from '../website-config';
 import { PageContext } from './post';
-import NavBar from '../components/header/NavBar';
-import {
-  Box,
-  Grid,
-  PseudoBox,
-  Flex,
-  Badge,
-  Text,
-  DefaultTheme,
-  CustomTheme,
-} from '@chakra-ui/core';
-import FeaturedCard from '../components/header/FeaturedCard/';
-import styled from '@emotion/styled';
-import { customTheme } from '../styles/theme';
+import ArticleCard from '../components/header/ArticleCard';
 
 export interface IndexProps {
   pageContext: {
@@ -105,27 +81,12 @@ const IndexPage: React.FC<IndexProps> = props => {
       </Helmet>
       <Wrapper>
         <NavBar logo={props.data.logo} />
-        {/* <SiteHeaderContent className="site-header-conent">
-          <SiteTitle className="site-title">
-            {props.data.logo ? (
-              <img
-                style={{ maxHeight: '55px' }}
-                src={props.data.logo.childImageSharp.fixed.src}
-                alt={config.title}
-              />
-            ) : (
-              config.title
-            )}
-          </SiteTitle>
-          <SiteDescription>{config.description}</SiteDescription>
-        </SiteHeaderContent> */}
-        {/* Header Section */}
         <Box
           as="header"
           css={{
             background: `linear-gradient(${customTheme.colors.bgLight2} 70%, ${customTheme.colors.bg} 30%)`,
           }}
-          py="2"
+          p="2"
         >
           <PseudoBox textAlign="center" py="12" zIndex={2}>
             <Text fontFamily="Merriweather Sans" color="headerText2" fontSize="3xl">
@@ -136,11 +97,30 @@ const IndexPage: React.FC<IndexProps> = props => {
             </Text>
           </PseudoBox>
           <FeaturedCard
+            //@ts-ignore
             post={props.data.allMarkdownRemark.edges.find(edge => edge.node.frontmatter.featured)}
           />
         </Box>
+        <Grid
+          p="3"
+          m="0 auto"
+          gridGap="5"
+          maxW="1040px"
+          w="100%"
+          templateColumns="repeat(auto-fit, minmax(250px, 1fr))"
+        >
+          {props.data.allMarkdownRemark.edges.map((post, index) => {
+            // filter out drafts in production
+            return (
+              (post.node.frontmatter.draft !== true || process.env.NODE_ENV !== 'production') &&
+              !post.node.frontmatter.featured && (
+                <ArticleCard index={index} key={post.node.fields.slug} post={post} />
+              )
+            );
+          })}
+        </Grid>
 
-        <main id="site-main" css={[SiteMain, outer]}>
+        {/* <main id="site-main" css={[SiteMain, outer]}>
           <div css={[inner, Posts]}>
             <div css={[PostFeed]}>
               {props.data.allMarkdownRemark.edges.map((post, index) => {
@@ -161,7 +141,7 @@ const IndexPage: React.FC<IndexProps> = props => {
             currentPage={props.pageContext.currentPage}
             numPages={props.pageContext.numPages}
           />
-        )}
+        )} */}
         <Footer />
       </Wrapper>
     </>
