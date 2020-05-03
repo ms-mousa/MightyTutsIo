@@ -1,17 +1,23 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import { ThemeProvider, CSSReset, ColorModeProvider, PseudoBox } from '@chakra-ui/core';
+import { customTheme } from '../styles/theme';
 
-interface WrapperProps {
-  className?: string;
+export interface WrapperProps {
+  children: React.ReactNode;
 }
+import '../styles/fonts.css';
 
-export const Wrapper: React.FC<WrapperProps> = ({ children, className }) => (
-  <StyledWrapper className={className}>{children}</StyledWrapper>
-);
+const Wrapper: React.SFC<WrapperProps> = (props: WrapperProps) => {
+  return (
+    <ThemeProvider theme={customTheme}>
+      <CSSReset />
+      <ColorModeProvider>
+        <PseudoBox color="bodyText" bg="bg">
+          {props.children}
+        </PseudoBox>
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
 
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
+export default Wrapper;

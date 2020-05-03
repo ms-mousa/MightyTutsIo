@@ -1,14 +1,17 @@
 ---
 layout: post
-title: A Full and Comprehensive Style Test
-image: img/testimg-cover.jpg
+title: Learn React-DnD
+subTitle: Design Drag-n-Drop interactions
+image: img/react-dnd.png
 author: [Mahmoud Shehata]
+featured: true
 date: 2018-09-30T07:03:47.149Z
 tags:
-  - Tests
+  - React
+  - Introduction
 ---
 
-Below is just about everything you’ll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.
+In this mini-course, I will give you an introdution to React-dnd. We will take it step by step to explain the conceptual aspects of React-dnd, like the monitor and collecting functions. After you have grasped the concepts, we wil do a simple drag-n-drop todo list... <!-- end -->
 
 ---
 

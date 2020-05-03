@@ -1,30 +1,20 @@
+import { Box, PseudoBox, Text, Grid } from '@chakra-ui/core';
+import { css } from '@emotion/core';
 import { graphql } from 'gatsby';
 import { FixedObject } from 'gatsby-image';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-
-import { css } from '@emotion/core';
-
 import { Footer } from '../components/Footer';
-import SiteNav from '../components/header/SiteNav';
+import FeaturedCard from '../components/header/FeaturedCard/';
+import NavBar from '../components/header/NavBar';
 import Pagination from '../components/Pagination';
 import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
-import IndexLayout from '../layouts';
-import {
-  inner,
-  outer,
-  PostFeed,
-  Posts,
-  SiteDescription,
-  SiteHeader,
-  SiteHeaderContent,
-  SiteMain,
-  SiteTitle,
-  SiteHeaderStyles,
-} from '../styles/shared';
+import Wrapper from '../components/Wrapper';
+import { inner, outer, PostFeed, Posts, SiteMain } from '../styles/shared';
+import { customTheme } from '../styles/theme';
 import config from '../website-config';
 import { PageContext } from './post';
+import ArticleCard from '../components/header/ArticleCard';
 
 export interface IndexProps {
   pageContext: {
@@ -54,7 +44,7 @@ const IndexPage: React.FC<IndexProps> = props => {
   const { width, height } = props.data.header.childImageSharp.fixed;
 
   return (
-    <IndexLayout css={HomePosts}>
+    <>
       <Helmet>
         <html lang={config.lang} />
         <title>{config.title}</title>
@@ -90,32 +80,47 @@ const IndexPage: React.FC<IndexProps> = props => {
         <meta property="og:image:height" content={height.toString()} />
       </Helmet>
       <Wrapper>
-        <div
-          css={[outer, SiteHeader, SiteHeaderStyles]}
-          className="site-header-background"
-          style={{
-            backgroundImage: `url('${props.data.header.childImageSharp.fixed.src}')`,
+        <NavBar />
+        <Box
+          as="header"
+          css={{
+            background: `linear-gradient(${customTheme.colors.bgLight2} 70%, ${customTheme.colors.bg} 30%)`,
           }}
+          p="2"
         >
-          <div css={inner}>
-            <SiteNav isHome />
-            <SiteHeaderContent className="site-header-conent">
-              <SiteTitle className="site-title">
-                {props.data.logo ? (
-                  <img
-                    style={{ maxHeight: '55px' }}
-                    src={props.data.logo.childImageSharp.fixed.src}
-                    alt={config.title}
-                  />
-                ) : (
-                  config.title
-                )}
-              </SiteTitle>
-              <SiteDescription>{config.description}</SiteDescription>
-            </SiteHeaderContent>
-          </div>
-        </div>
-        <main id="site-main" css={[SiteMain, outer]}>
+          <PseudoBox textAlign="center" py="12" zIndex={2}>
+            <Text fontFamily="Merriweather Sans" color="headerText2" fontSize="3xl">
+              {config.title}
+            </Text>
+            <Text fontFamily="Open Sans" color="subText" fontSize="md">
+              {config.description}
+            </Text>
+          </PseudoBox>
+          <FeaturedCard
+            //@ts-ignore
+            post={props.data.allMarkdownRemark.edges.find(edge => edge.node.frontmatter.featured)}
+          />
+        </Box>
+        <Grid
+          p="3"
+          m="0 auto"
+          gridGap="5"
+          maxW="1040px"
+          w="100%"
+          templateColumns="repeat(auto-fit, minmax(250px, 1fr))"
+        >
+          {props.data.allMarkdownRemark.edges.map((post, index) => {
+            // filter out drafts in production
+            return (
+              (post.node.frontmatter.draft !== true || process.env.NODE_ENV !== 'production') &&
+              !post.node.frontmatter.featured && (
+                <ArticleCard index={index} key={post.node.fields.slug} post={post} />
+              )
+            );
+          })}
+        </Grid>
+
+        {/* <main id="site-main" css={[SiteMain, outer]}>
           <div css={[inner, Posts]}>
             <div css={[PostFeed]}>
               {props.data.allMarkdownRemark.edges.map((post, index) => {
@@ -136,20 +141,20 @@ const IndexPage: React.FC<IndexProps> = props => {
             currentPage={props.pageContext.currentPage}
             numPages={props.pageContext.numPages}
           />
-        )}
+        )} */}
         <Footer />
       </Wrapper>
-    </IndexLayout>
+    </>
   );
 };
 
 export const pageQuery = graphql`
   query blogPageQuery($skip: Int!, $limit: Int!) {
-    logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
+    logo: file(relativePath: { eq: "img/mighty-logo.png" }) {
       childImageSharp {
         # Specify the image processing specifications right in the query.
         # Makes it trivial to update as your page's design changes.
-        fixed {
+        fixed(height: 120) {
           ...GatsbyImageSharpFixed
         }
       }
@@ -174,9 +179,11 @@ export const pageQuery = graphql`
           timeToRead
           frontmatter {
             title
+            subTitle
             date
             tags
             draft
+            featured
             excerpt
             image {
               childImageSharp {
@@ -211,7 +218,7 @@ export const pageQuery = graphql`
 `;
 
 const HomePosts = css`
-  @media (min-width: 795px) {
+  /* @media (min-width: 795px) {
     .post-card-large {
       flex: 1 1 100%;
       flex-direction: row;
@@ -264,8 +271,8 @@ const HomePosts = css`
       margin-bottom: 1.5em;
       font-size: 1.8rem;
       line-height: 1.5em;
-    }
-  }
+    } 
+  }*/
 `;
 
 export default IndexPage;

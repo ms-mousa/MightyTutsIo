@@ -7,7 +7,7 @@ import { FluidObject } from 'gatsby-image';
 import { Footer } from '../components/Footer';
 import SiteNav from '../components/header/SiteNav';
 import { PostCard } from '../components/PostCard';
-import { Wrapper } from '../components/Wrapper';
+import Wrapper from '../components/Wrapper';
 import IndexLayout from '../layouts';
 import {
   AuthorProfileImage,
@@ -25,6 +25,7 @@ import {
 import { PageContext } from './post';
 import { Helmet } from 'react-helmet';
 import config from '../website-config';
+import NavBar from '../components/header/NavBar';
 
 interface AuthorTemplateProps {
   pathContext: {
@@ -117,12 +118,7 @@ const Author: React.FC<AuthorTemplateProps> = props => {
       </Helmet>
       <Wrapper css={NoImage}>
         <header className="site-archive-header no-image" css={[SiteHeader, SiteArchiveHeader]}>
-          <div css={[outer, SiteNavMain]}>
-            <div css={inner}>
-              <SiteNav isHome={false} />
-            </div>
-          </div>
-
+          <NavBar />
           <div css={outer} className="site-header-background no-image">
             <div css={inner}>
               <SiteHeaderContent css={AuthorHeader} className="site-header-content">
@@ -224,6 +220,7 @@ export const pageQuery = graphql`
         }
       }
     }
+
     allMarkdownRemark(
       filter: { frontmatter: { draft: { ne: true } } }
       sort: { fields: [frontmatter___date], order: DESC }
@@ -231,7 +228,7 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          excerpt
+          excerpt(pruneLength: 280)
           timeToRead
           frontmatter {
             title
