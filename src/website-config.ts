@@ -21,6 +21,10 @@ export interface WebsiteConfig {
    */
   twitter?: string;
   /**
+   * Youtube channel link
+   */
+  youtube?: string;
+  /**
    * hide or show all email subscribe boxes
    */
   showSubscribe: boolean;
@@ -55,15 +59,16 @@ const config: WebsiteConfig = {
   logo: 'img/mighty-logo.png',
   lang: 'en',
   siteUrl: 'https://gatsby-casper.netlify.com',
-  facebook: 'https://www.facebook.com/ghost',
-  twitter: 'https://twitter.com/tryghost',
+  facebook: '',
+  twitter: 'https://twitter.com/@im_msmo',
+  youtube: 'https://www.youtube.com/channel/UC3c4mF6UDQ_MW9PRg7SgE-A',
   showSubscribe: true,
   mailchimpAction:
     'https://twitter.us19.list-manage.com/subscribe/post?u=a89b6987ac248c81b0b7f3a0f&amp;id=7d777b7d75',
   mailchimpName: 'b_a89b6987ac248c81b0b7f3a0f_7d777b7d75',
   mailchimpEmailFieldName: 'MERGE0',
   googleSiteVerification: 'GoogleCode',
-  footer: 'Made and maintained by Mahmoud Shehata @im_msmo',
+  footer: 'Secret is ☕️',
 };
 
 export default config;

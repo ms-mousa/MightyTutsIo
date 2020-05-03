@@ -80,7 +80,7 @@ const IndexPage: React.FC<IndexProps> = props => {
         <meta property="og:image:height" content={height.toString()} />
       </Helmet>
       <Wrapper>
-        <NavBar logo={props.data.logo} />
+        <NavBar />
         <Box
           as="header"
           css={{

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Flex, Stack, PseudoBox, Box, IconButton, useColorMode, Image } from '@chakra-ui/core';
-import { Link, graphql } from 'gatsby';
+import { Link, useStaticQuery, graphql } from 'gatsby';
 import { FixedObject } from 'gatsby-image';
 export interface NavBarProps {
-  children?: React.ReactNode;
+  isHome?: boolean;
+}
+
+interface DATA {
   logo: {
     childImageSharp: {
       fixed: FixedObject;
@@ -14,21 +17,34 @@ export interface NavBarProps {
 const NavBar: React.SFC<NavBarProps> = (props: NavBarProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const data: DATA = useStaticQuery(graphql`
+    query navBarQuery {
+      logo: file(relativePath: { eq: "img/mighty-logo.png" }) {
+        childImageSharp {
+          # Specify the image processing specifications right in the query.
+          # Makes it trivial to update as your page's design changes.
+          fixed {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
+    }
+  `);
+
   return (
     <Flex
       as="nav"
       w="100vw"
       align="center"
       justify="center"
-      bg="bgLight1"
-      color="bodyText"
+      bg="bg"
       fontSize={['md', 'lg', 'xl', 'xl']}
       h="7vh"
       boxShadow="md"
       p={2}
     >
       <Flex w={['100vw', '100vw', '80vw', '80vw']} justify="space-around">
-        <Image h="5vh" src={props.logo.childImageSharp.fixed.src} alt="Logo of Chakra-ui" />
+        <Image h="5vh" src={data.logo.childImageSharp.fixed.src} alt="Logo of Chakra-ui" />
         <Stack
           fontFamily="Merriweather Sans"
           spacing={8}
@@ -61,19 +77,5 @@ const NavBar: React.SFC<NavBarProps> = (props: NavBarProps) => {
     </Flex>
   );
 };
-
-export const pageQuery = graphql`
-  query navBarQuery {
-    logo: file(relativePath: { eq: "img/ghost-logo.png" }) {
-      childImageSharp {
-        # Specify the image processing specifications right in the query.
-        # Makes it trivial to update as your page's design changes.
-        fixed {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-  }
-`;
 
 export default NavBar;
