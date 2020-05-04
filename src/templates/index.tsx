@@ -109,12 +109,16 @@ const IndexPage: React.FC<IndexProps> = props => {
           w="100%"
           templateColumns="repeat(auto-fit, minmax(250px, 1fr))"
         >
-          {props.data.allMarkdownRemark.edges.map((post, index) => {
+          {props.data.allMarkdownRemark.edges.map(post => {
             // filter out drafts in production
             return (
               (post.node.frontmatter.draft !== true || process.env.NODE_ENV !== 'production') &&
               !post.node.frontmatter.featured && (
-                <ArticleCard index={index} key={post.node.fields.slug} post={post} />
+                <ArticleCard
+                  index={post.node.fields.slug}
+                  key={post.node.fields.slug}
+                  post={post}
+                />
               )
             );
           })}

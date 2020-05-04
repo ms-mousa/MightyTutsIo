@@ -12,7 +12,7 @@ const Wrapper: React.SFC<WrapperProps> = (props: WrapperProps) => {
     <ThemeProvider theme={customTheme}>
       <CSSReset />
       <ColorModeProvider>
-        <PseudoBox color="bodyText" bg="bg">
+        <PseudoBox color="bodyText" bg="bg" minW="100vw" minH="100vh" margin="0 auto">
           {props.children}
         </PseudoBox>
       </ColorModeProvider>

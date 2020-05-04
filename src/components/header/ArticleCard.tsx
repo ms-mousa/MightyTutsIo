@@ -3,11 +3,12 @@ import React from 'react';
 import { PageContext } from '../../templates/post';
 import { format } from 'date-fns';
 import { Link } from 'gatsby';
+import { customTheme } from '../../styles/theme';
 export interface ArticleCardProps {
   post: {
     node: PageContext;
   };
-  index: number;
+  index: string;
 }
 
 const ArticleCard: React.SFC<ArticleCardProps> = (props: ArticleCardProps) => {
@@ -42,9 +43,25 @@ const ArticleCard: React.SFC<ArticleCardProps> = (props: ArticleCardProps) => {
               {post.frontmatter.title}
             </Text>
           </PseudoBox>
-          <Text fontSize="sm" fontWeight="light">
-            {post.excerpt}
-          </Text>
+          <Box pos="relative" flex="1 0 90px" overflow="hidden">
+            <Text
+              css={{
+                '&:before': {
+                  content: `' '`,
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  left: '0',
+                  top: '0',
+                  background: `linear-gradient(transparent 70%,${customTheme.colors.bgLight1})`,
+                },
+              }}
+              fontSize="sm"
+              fontWeight="light"
+            >
+              {post.excerpt}
+            </Text>
+          </Box>
           <Flex my="2" alignItems="center">
             <AvatarGroup size="sm" max={2}>
               {post.frontmatter.author.map(author => (
